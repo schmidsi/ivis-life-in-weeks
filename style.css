@@ -1,0 +1,13 @@
+svg {
+    background-color: steelblue;
+}
+
+.content {
+    fill: lightsteelblue;
+}
+
+.label {
+    fill: white;
+    font-size: x-large;
+    font-weight: bolder;
+}

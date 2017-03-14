@@ -1,0 +1,14 @@
+{
+  "name": "ivis-life-in-weeks",
+  "version": "0.0.1",
+  "description": "Student project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "browser-sync start --server --files 'css/*.css'"
+  },
+  "author": "Simon Emanuel Schmid (simon@schmid.io)",
+  "license": "ISC",
+  "dependencies": {
+    "browser-sync": "^2.18.8"
+  }
+}
