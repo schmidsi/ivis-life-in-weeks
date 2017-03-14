@@ -4,11 +4,29 @@
   "description": "Student project",
   "main": "index.js",
   "scripts": {
-    "dev": "browser-sync start --server --files 'css/*.css'"
+    "dev": "browser-sync start --server --files 'css/*.css'",
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true
+    },
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb"
+    ]
   },
   "author": "Simon Emanuel Schmid (simon@schmid.io)",
   "license": "ISC",
   "dependencies": {
     "browser-sync": "^2.18.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0"
   }
 }
