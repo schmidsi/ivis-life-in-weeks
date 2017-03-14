@@ -4,7 +4,7 @@
   "description": "Student project",
   "main": "index.js",
   "scripts": {
-    "dev": "browser-sync start --server --files 'css/*.css'",
+    "dev": "browser-sync start --server --files '*.*'",
     "lint": "eslint ."
   },
   "eslintConfig": {

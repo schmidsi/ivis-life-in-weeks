@@ -1,49 +1,36 @@
-const margin = {top: 50, right: 50, bottom: 50, left: 50};
+/* global d3 */
+const margin = { top: 50, right: 50, bottom: 50, left: 50 };
 
-const svg = d3.select("svg");
-const width = +svg.attr("width") - margin.left - margin.right;
-const height = +svg.attr("height") - margin.top - margin.bottom;
+const svg = d3.select('svg');
+const width = +svg.attr('width') - margin.left - margin.right;
+const height = +svg.attr('height') - margin.top - margin.bottom;
 
-// content area of your visualization (note: g elements do NOT have dimensions)
-const vis = svg.append("g")
-.attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Everything below is for illustration purposes
-// delete it and replace it with your own visualization (by appending to `vis`)
+const vis = svg.append('g')
+.attr('transform', `translate(${margin.left},${margin.top})`);
 
-// -- ▼ DELETE FROM HERE ▼ --
+const weeks = 52;
+const years = 10;
 
-// illustrate content area dimensions (makes container g element grow accordingly)
-const rect = vis.append("rect")
-.attr("class", "content")
-.attr("width", width)
-.attr("height", height);
+const data = d3.range(1, weeks * years);
 
-// illustrate left/right margins
-const xScale = d3.scaleLinear()
-.domain([margin.left, margin.left + width])
-.range([0, width]);
-vis.append("g").call(d3.axisTop(xScale));
+const xScale = d3.scaleBand()
+  .domain(d3.range(1, weeks + 1))
+  .range([0, width])
+  .padding(0.1);
 
-// illustrate top/bottom margins
-const yScale = d3.scaleLinear()
-.domain([margin.top, margin.top + height])
-.range([0, height]);
-vis.append("g").call(d3.axisLeft(yScale));
+const yScale = d3.scaleBand()
+  .domain(d3.range(1, years + 1))
+  .range([0, height])
+  .padding(0.1);
 
-// Tip: name your selections and work with CSS classes
-const label = vis.append("g")
-.attr("class", "label");
+vis.selectAll('rect')
+  .data(data)
+  .enter()
+  .append('rect')
+  .attr('x', (d, i) => xScale(i % weeks))
+  .attr('y', (d, i) => Math.floor(yScale(i / years)))
+  .attr('width', xScale.bandwidth())
+  .attr('height', yScale.bandwidth());
 
-const data = ["Content", "Area"];
-
-label.selectAll("text")
-.data(data)
-.enter()
-.append("text")
-.text(d => d)
-.attr("x", width / 2)
-.attr("y", (d, i) => height / 2 + (i * 20))
-.attr("text-anchor", "middle");
-
-// -- ▲ DELETE UNTIL HERE ▲ --
+console.log(data);
