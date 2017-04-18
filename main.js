@@ -5,7 +5,6 @@ const svg = d3.select('svg');
 const width = +svg.attr('width') - margin.left - margin.right;
 const height = +svg.attr('height') - margin.top - margin.bottom;
 
-
 const vis = svg.append('g')
 .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -29,6 +28,20 @@ async function dataLoadPromise() {
   });
 }
 
+const mergeDataWithGrid = (data, _grid) => {
+  const merged = [..._grid];
+
+  data.lifePeriods.forEach((period) => {
+    const startWeekIndex = ((period.start.year - firstYear) * weeks) + period.start.week;
+    const endWeekIndex = ((period.end.year - firstYear) * weeks) + period.end.week;
+
+    d3.range(startWeekIndex, endWeekIndex).forEach(index =>
+      (merged[index][period.type] = period.description));
+  });
+
+  return merged;
+};
+
 const xScale = d3.scaleBand()
   .domain(d3.range(1, weeks + 1))
   .range([0, width])
@@ -41,8 +54,9 @@ const yScale = d3.scaleBand()
 
 async function render() {
   const data = await dataLoadPromise();
+  const mergedData = mergeDataWithGrid(data, grid);
 
-  console.log(data, grid[2]);
+  console.log(mergedData, grid[2]);
 
   vis.selectAll('rect')
     .data(grid)
