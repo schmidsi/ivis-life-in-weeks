@@ -69,6 +69,27 @@ const yScale = d3.scaleBand()
   .range([0, height])
   .padding(0.1);
 
+const renderTooltip = (d, i, nodes) => {
+  const anchorBounding = nodes[i].getBoundingClientRect();
+
+  const tooltip = d3.select('#tooltip');
+  tooltip
+    .transition()
+    .duration(200)
+    .style('opacity', 0.9);
+  tooltip
+    .html(`<b>${d.year} CW${d.week}</b><br> ${d.education ? d.education : ''}`)
+    .style('left', `${anchorBounding.left - 100}px`)
+    .style('bottom', `${document.body.offsetHeight - anchorBounding.top - 250}px`);
+};
+
+const hideTooltip = () => {
+  d3.select('#tooltip')
+    .transition()
+    .duration(200)
+    .style('opacity', 0);
+};
+
 async function render() {
   const data = await dataLoadPromise();
   const mergedData = mergeDataWithGrid(data, grid);
@@ -87,7 +108,9 @@ async function render() {
     .attr('width', xScale.bandwidth())
     .attr('height', yScale.bandwidth())
     .style('fill', d => (d.education ? colorScale(d.education) : colors.darkblue))
-    .style('stroke', d => (d.currentWeek ? 'white' : undefined));
+    .style('stroke', d => (d.currentWeek ? 'white' : undefined))
+    .on('mouseover', renderTooltip)
+    .on('mouseout', hideTooltip);
 }
 
 render();
