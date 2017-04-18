@@ -8,6 +8,14 @@ const height = +svg.attr('height') - margin.top - margin.bottom;
 const vis = svg.append('g')
 .attr('transform', `translate(${margin.left},${margin.top})`);
 
+const colors = {
+  darkblue: d3.color('#121A24'),
+  lightblue: d3.color('#314150'),
+  green: d3.color('#3E5925'),
+  brown: d3.color('#8D7871'),
+  lightskin: d3.color('#DBC6C4'),
+};
+
 const weeks = 52;
 const years = 90;
 const firstYear = 1984;
@@ -55,17 +63,21 @@ const yScale = d3.scaleBand()
 async function render() {
   const data = await dataLoadPromise();
   const mergedData = mergeDataWithGrid(data, grid);
-
-  console.log(mergedData, grid[2]);
+  const colorScale = d3.scaleOrdinal()
+    .domain(data.lifePeriods.map(period => period.description))
+    .range(d3.range(data.lifePeriods.length).map(
+      index => colors.lightblue.brighter(index)),
+    );
 
   vis.selectAll('rect')
-    .data(grid)
+    .data(mergedData)
     .enter()
     .append('rect')
     .attr('x', (d, i) => xScale(i % weeks))
     .attr('y', (d, i) => yScale(Math.floor(i / weeks)))
     .attr('width', xScale.bandwidth())
-    .attr('height', yScale.bandwidth());
+    .attr('height', yScale.bandwidth())
+    .style('fill', d => (d.education ? colorScale(d.education) : colors.darkblue));
 }
 
 render();

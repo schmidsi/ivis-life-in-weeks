@@ -4,7 +4,8 @@ body {
 }
 
 svg {
-    background-color: steelblue;
+    /* background-color: steelblue; */
+    border: 1px solid white;
 }
 
 .content {
