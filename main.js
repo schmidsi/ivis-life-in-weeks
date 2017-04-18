@@ -10,7 +10,7 @@ const vis = svg.append('g')
 .attr('transform', `translate(${margin.left},${margin.top})`);
 
 const weeks = 52;
-const years = 80;
+const years = 90;
 
 const data = d3.range(1, weeks * years + 1);
 
@@ -32,5 +32,3 @@ vis.selectAll('rect')
   .attr('y', (d, i) => yScale(Math.floor(i / weeks)))
   .attr('width', xScale.bandwidth())
   .attr('height', yScale.bandwidth());
-
-console.log(data);

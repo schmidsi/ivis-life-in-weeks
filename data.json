@@ -1,0 +1,47 @@
+{
+  "lifePeriods": [{
+    "start": {
+      "year": 1991,
+      "week": 34
+    },
+    "end": {
+      "year": 1999,
+      "week": 29
+    },
+    "type": "education",
+    "description": "Primary School in Unterägeri & Zürich"
+  }, {
+    "start": {
+      "year": 1997,
+      "week": 34
+    },
+    "end": {
+      "year": 2001,
+      "week": 29
+    },
+    "type": "education",
+    "description": "Secondary School at Realgymnasium Ramibühl, Zürich (without examination)"
+  }, {
+    "start": {
+      "year": 2001,
+      "week": 34
+    },
+    "end": {
+      "year": 2005,
+      "week": 29
+    },
+    "type": "education",
+    "description": "Apprenticeship IT Technician with EFZ (certi cate of capacity of the Swiss Federation) and BMS (vocational baccalaureate)"
+  }, {
+    "start": {
+      "year": 2013,
+      "week": 34
+    },
+    "end": {
+      "year": 2018,
+      "week": 50
+    },
+    "type": "education",
+    "description": "BSc in Computer Science. Specialisation in iCompetence at the University of Applied Sciences and Arts Northwestern Switzerland FHNW, School of Engineering. iCompetence: Information Technology, Design & Management."
+  }]
+}
