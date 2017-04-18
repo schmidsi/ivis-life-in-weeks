@@ -22,8 +22,8 @@ const firstYear = 1984;
 
 const grid = d3.range(1, (weeks * years) + 1).map(value => ({
   id: value,
-  week: value % weeks,
-  year: firstYear + Math.floor(value / weeks),
+  week: (value % weeks) === 0 ? 52 : (value % weeks),
+  year: firstYear + Math.ceil(value / weeks),
 }));
 
 const getWeek = (date) => {
@@ -65,12 +65,14 @@ const xScale = d3.scaleBand()
   .padding(0.1);
 
 const yScale = d3.scaleBand()
-  .domain(d3.range(1, years + 1))
+  .domain(d3.range(0, years + 1))
   .range([0, height])
   .padding(0.1);
 
 const renderTooltip = (d, i, nodes) => {
   const anchorBounding = nodes[i].getBoundingClientRect();
+
+  console.log(d);
 
   const tooltip = d3.select('#tooltip');
   tooltip
@@ -78,7 +80,7 @@ const renderTooltip = (d, i, nodes) => {
     .duration(200)
     .style('opacity', 0.9);
   tooltip
-    .html(`<b>${d.year} CW${d.week}</b><br> ${d.education ? d.education : ''}`)
+    .html(`<b>${d.year} CW${d.week} at age: ${d.year - firstYear}</b><br> ${d.education ? d.education : ''}`)
     .style('left', `${anchorBounding.left - 100}px`)
     .style('bottom', `${document.body.offsetHeight - anchorBounding.top - 250}px`);
 };
@@ -103,8 +105,8 @@ async function render() {
     .data(mergedData)
     .enter()
     .append('rect')
-    .attr('x', (d, i) => xScale(i % weeks))
-    .attr('y', (d, i) => yScale(Math.floor(i / weeks)))
+    .attr('x', d => xScale(d.week))
+    .attr('y', d => yScale(Math.ceil(d.id / weeks)))
     .attr('width', xScale.bandwidth())
     .attr('height', yScale.bandwidth())
     .style('fill', d => (d.education ? colorScale(d.education) : colors.darkblue))

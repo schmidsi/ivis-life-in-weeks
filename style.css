@@ -31,7 +31,6 @@ svg {
 	position: absolute;
 	pointer-events: none;
 }
-
 #tooltip:after {
 	border-color: rgba(136, 183, 213, 0);
 	border-top-color: #121A24;
