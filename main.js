@@ -11,8 +11,23 @@ const vis = svg.append('g')
 
 const weeks = 52;
 const years = 90;
+const firstYear = 1984;
 
-const data = d3.range(1, weeks * years + 1);
+const grid = d3.range(1, (weeks * years) + 1).map(value => ({
+  id: value,
+  week: value % weeks,
+  year: firstYear + Math.floor(value / weeks),
+}));
+
+async function dataLoadPromise() {
+  return new Promise((resolve, reject) => {
+    try {
+      d3.json('./data.json', resolve);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
 const xScale = d3.scaleBand()
   .domain(d3.range(1, weeks + 1))
@@ -24,11 +39,19 @@ const yScale = d3.scaleBand()
   .range([0, height])
   .padding(0.1);
 
-vis.selectAll('rect')
-  .data(data)
-  .enter()
-  .append('rect')
-  .attr('x', (d, i) => xScale(i % weeks))
-  .attr('y', (d, i) => yScale(Math.floor(i / weeks)))
-  .attr('width', xScale.bandwidth())
-  .attr('height', yScale.bandwidth());
+async function render() {
+  const data = await dataLoadPromise();
+
+  console.log(data, grid[2]);
+
+  vis.selectAll('rect')
+    .data(grid)
+    .enter()
+    .append('rect')
+    .attr('x', (d, i) => xScale(i % weeks))
+    .attr('y', (d, i) => yScale(Math.floor(i / weeks)))
+    .attr('width', xScale.bandwidth())
+    .attr('height', yScale.bandwidth());
+}
+
+render();
