@@ -26,6 +26,11 @@ const grid = d3.range(1, (weeks * years) + 1).map(value => ({
   year: firstYear + Math.floor(value / weeks),
 }));
 
+const getWeek = (date) => {
+  const onejan = new Date(date.getFullYear(), 0, 1);
+  return Math.ceil((((date - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+};
+
 async function dataLoadPromise() {
   return new Promise((resolve, reject) => {
     try {
@@ -38,6 +43,10 @@ async function dataLoadPromise() {
 
 const mergeDataWithGrid = (data, _grid) => {
   const merged = [..._grid];
+  const now = new Date();
+  const currentWeekIndex = ((now.getFullYear() - firstYear) * weeks) + getWeek(now);
+
+  merged[currentWeekIndex].currentWeek = true;
 
   data.lifePeriods.forEach((period) => {
     const startWeekIndex = ((period.start.year - firstYear) * weeks) + period.start.week;
@@ -77,7 +86,8 @@ async function render() {
     .attr('y', (d, i) => yScale(Math.floor(i / weeks)))
     .attr('width', xScale.bandwidth())
     .attr('height', yScale.bandwidth())
-    .style('fill', d => (d.education ? colorScale(d.education) : colors.darkblue));
+    .style('fill', d => (d.education ? colorScale(d.education) : colors.darkblue))
+    .style('stroke', d => (d.currentWeek ? 'white' : undefined));
 }
 
 render();
