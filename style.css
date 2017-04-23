@@ -17,6 +17,7 @@ svg {
   border: 1px solid white;
   padding: 5px;
   opacity: 0;
+  font-size: 12px;
   font-weight: 300;
   pointer-events: none;
 }

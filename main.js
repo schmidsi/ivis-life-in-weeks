@@ -23,7 +23,7 @@ const firstYear = 1984;
 const grid = d3.range(1, (weeks * years) + 1).map(value => ({
   id: value,
   week: (value % weeks) === 0 ? 52 : (value % weeks),
-  year: firstYear + Math.ceil(value / weeks),
+  year: firstYear + Math.floor(value / weeks),
 }));
 
 const getWeek = (date) => {
@@ -71,8 +71,6 @@ const yScale = d3.scaleBand()
 
 const renderTooltip = (d, i, nodes) => {
   const anchorBounding = nodes[i].getBoundingClientRect();
-
-  console.log(d);
 
   const tooltip = d3.select('#tooltip');
   tooltip
